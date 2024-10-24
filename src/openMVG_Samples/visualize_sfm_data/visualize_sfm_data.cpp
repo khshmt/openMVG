@@ -73,8 +73,7 @@ int main(int argc, char* argv[]) {
 
       rec.log(
           camera_entity + view_file_name,
-          rerun::archetypes::Transform3D(rerun::datatypes::TranslationAndMat3x3(
-              rr_translation, rr_rotation, true)));
+          rerun::archetypes::Transform3D(rr_translation, rr_rotation, true));
 
       const rerun::datatypes::Vec2D resolution{
           static_cast<float>(view->ui_width),
@@ -90,10 +89,10 @@ int main(int argc, char* argv[]) {
           openMVG::image::ReadImage(image_name.c_str(), &img);
       if (is_img_loaded) {
         rec.log(camera_entity + view_file_name,
-                rerun::Image({static_cast<uint64_t>(img.rows()),
-                              static_cast<uint64_t>(img.cols()),
-                              static_cast<uint64_t>(img.Depth())},
-                             img.GetMat().data()->data()));
+            rerun::Image(
+                img.GetMat().data()->data(),
+                { static_cast<uint32_t>(img.cols()), static_cast<uint32_t>(img.rows()) },
+                rerun::datatypes::ColorModel::RGB));
       }
     }
   }
